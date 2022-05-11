@@ -1,39 +1,79 @@
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      alert("{{messages[-1]}}")
+    </script>
+  {% endif %}
+{% endwith %}
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+
 </head>
-<body>
+<body style="background: #384047;">
+
+
 <style>
+
   #reg-form1 {
-    position: relative;
-    top: 50px;
+  background: white;
+  width: 330px;
+  height: 330px;
+  position: relative;
+  top: 50px;
+  border: 1px solid black;
+  text-align: left;
 }
+  span {
+    display:block;
+    background: #F9A5A5;
+    padding: 2px 5px;
+    color: #666;
+    margin-right:10px;
+    font-size:15px;
+  }
+
+
 </style>
 <center>
   <div class="main">
       <div class="two">
         <div class="register" style = "margin-top: 200px">
-          <h3>Create your account</h3>
-          <form id="reg-form1">
-            <div style = "margin-top: 20px">
-              <label for="name1">Name</label>
-              <input type="text" id="name1" spellcheck="false" placeholder="Shridhar Deshmukh"/>
+          <h3 style="color:white">Create your account</h3>
+          <form action="#" id="reg-form1" method="post">
+            <div style = "margin-top: 20px; margin-left:10px;">
+              <label for="name">Name</label>
+              <input type="text"name="name" id="name" spellcheck="false" placeholder="Yongtae Choi"/>
             </div>
-            <div style = "margin-top: 20px">
-              <label for="email1">Email</label>
-              <input type="text" id="email1" spellcheck="false" placeholder="shridhardeshmukh@xyz.com"/>
+            <div style = "margin-top: 20px; margin-left:10px;">
+              <label for="email">Email</label>
+              <input type="text"name="email" id="email" spellcheck="false" placeholder="123@123.com"/>
             </div>
-            <div style = "margin-top: 20px">
-              <label for="username1">Username</label>
-              <input type="text" id="username1" spellcheck="false" placeholder="shree33" />
+            <div style = "margin-top: 20px; margin-left:10px;">
+              <label for="username">Username</label>
+              <input type="text"name="username" id="username" spellcheck="false" placeholder="sss123" />
             </div>
-            <div style = "margin-top: 20px">
-              <label for="password1">Password</label>
-              <input type="password" id="password1" />
+            <div style = "margin-top: 20px; margin-left:10px;">
+              <label for="password">Password</label>
+              <input type="password" name="password" id="password" />
+
             </div>
-            <div style = "margin-top: 20px">
-              <label for="password-again1">Password Again</label>
-              <input type="password" id="password-again1" />
+            <div style = "margin-left:10px">
+               <font name="check1" size="2" color="red"> </font>
             </div>
-            <div style = "margin-top: 20px">
+            <div style = "margin-top: 20px; margin-left:10px;">
+              <label for="passwordagain">Password Again</label>
+              <input type="password"name="passwordagain" id="passwordagain" />
+
+            </div>
+            <div style = "margin-left:10px">
+               <font name="check" size="2" color="red"> </font>
+            </div>
+            <div style = "margin-top: 20px; margin-left:10px;">
               <label></label>
               <input type="submit" value="Create Account" id="create-account1" class="button"/>
             </div>
@@ -45,4 +85,7 @@
       </div>
     </div>
   </center>
+
+<script src="{{url_for('static',filename='signup.js')}}"></script>
 </body>
+</html>
