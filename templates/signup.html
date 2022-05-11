@@ -1,3 +1,13 @@
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <script>
+      alert("{{messages[-1]}}")
+    </script>
+  {% endif %}
+{% endwith %}
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
 </head>
 <body>
@@ -12,26 +22,26 @@
       <div class="two">
         <div class="register" style = "margin-top: 200px">
           <h3>Create your account</h3>
-          <form id="reg-form1">
+          <form id="reg-form1" method="post">
             <div style = "margin-top: 20px">
-              <label for="name1">Name</label>
-              <input type="text" id="name1" spellcheck="false" placeholder="Shridhar Deshmukh"/>
+              <label for="name">Name</label>
+              <input type="text"name="name" id="name" spellcheck="false" placeholder="Yongtae Choi"/>
             </div>
             <div style = "margin-top: 20px">
-              <label for="email1">Email</label>
-              <input type="text" id="email1" spellcheck="false" placeholder="shridhardeshmukh@xyz.com"/>
+              <label for="email">Email</label>
+              <input type="text"name="email" id="email" spellcheck="false" placeholder="shridhardeshmukh@xyz.com"/>
             </div>
             <div style = "margin-top: 20px">
-              <label for="username1">Username</label>
-              <input type="text" id="username1" spellcheck="false" placeholder="shree33" />
+              <label for="username">Username</label>
+              <input type="text"name="username" id="username" spellcheck="false" placeholder="shree33" />
             </div>
             <div style = "margin-top: 20px">
-              <label for="password1">Password</label>
-              <input type="password" id="password1" />
+              <label for="password">Password</label>
+              <input type="password"name="password" id="password" />
             </div>
             <div style = "margin-top: 20px">
-              <label for="password-again1">Password Again</label>
-              <input type="password" id="password-again1" />
+              <label for="password-again">Password Again</label>
+              <input type="password"name="passwordagain" id="password-again" />
             </div>
             <div style = "margin-top: 20px">
               <label></label>
@@ -46,3 +56,4 @@
     </div>
   </center>
 </body>
+</html>
