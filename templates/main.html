@@ -6,6 +6,7 @@
   {% endif %}
 {% endwith %}
 
+
 <!DOCTYPE html>
     <html>
         <head>
@@ -25,7 +26,18 @@
                   float: right;
                 }
                 </style>
+
+
             <h2>SW MARKET
+                {%if userid%}
+                <div class="right-box">
+                    안녕하세요{{userid}}님!
+                    <button type="button" onclick="window.location.href='/mypage'" class="btn btn-primary">MyPage</button>
+                 </div>
+                 <div class="right-box" style="padding-right : 30px">
+
+                 </div>
+                {%else%}
                  <div class="right-box">
                     <button type="button" onclick="window.location.href='/signup'" class="btn btn-primary">Sign Up</button>
                     <button type="button" onclick="window.location.href='/signin'" class="btn btn-primary">Sign In</button>
@@ -33,6 +45,8 @@
                  <div class="right-box" style="padding-right : 30px">
                     <h6 id ="status"></h6>
                  </div>
+                {%endif%}
+
             </h2>
             <hr>
                 <div>

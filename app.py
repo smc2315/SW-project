@@ -139,6 +139,10 @@ def new():
     else:
         return render_template("new.html", userid=userid, logFlag=logFlag)
 
+@app.route('/mypage')
+def mypage():
+    userid = session.get('userid', None)
 
+    return render_template("mypage.html", userid=userid)
 if __name__ == "__main__":
     app.run(host='127.0.0.1', debug=True, port=9999)
