@@ -1,5 +1,5 @@
 import gridfs
-from flask import Flask, render_template, redirect, request, url_for, session, flash, escape
+from flask import Flask, render_template, redirect, request, url_for, session, flash, escape, jsonify
 from flask_pymongo import PyMongo
 from datetime import datetime, timedelta
 
@@ -22,7 +22,7 @@ def main():
 
 
 @app.route("/signup", methods=["GET", "POST"])
-def bulletin_write():
+def signup():
     if request.method == "POST":
         email = request.form.get("email", type=str)
         pw = request.form.get("password", type=str)
@@ -57,6 +57,8 @@ def bulletin_write():
             "pw": pw,
             "username": username,
             "name": name,
+            "following": [],
+            "follower": [],
         }
         to_db_signup = signup.insert_one(to_db)
         last_signup = signup.find().sort("_id", -1).limit(5)
@@ -64,7 +66,7 @@ def bulletin_write():
             print(_)
 
         flash("Thanks for your signup")
-        return render_template("main.html")
+        return redirect('/')
     else:
         return render_template("signup.html")
 
@@ -86,12 +88,12 @@ def signin():
 
                 userid = session.get('userid', None)
                 logFlag = session.get('logFlag', None)
-                return render_template("main.html", userid=userid, logFlag=logFlag)
+                return redirect("/")
             else:
                 flash("Wrong Password!!")
                 return redirect("/signin")
     else:
-        return render_template("main.html")
+        return render_template("signin.html")
 
 
 @app.route('/new', methods=['GET', 'POST'])
@@ -129,19 +131,35 @@ def new():
                 "userid": userid,
             }
             post.insert_one(to_db)
-            return render_template("main.html", userid=userid, logFlag=logFlag)
+            return redirect("/")
     else:
         return render_template("new.html", userid=userid, logFlag=logFlag)
 
 @app.route('/mypage')
 def mypage():
     userid = session.get('userid', None)
-
-    return render_template("mypage.html", userid=userid)
+    result = mongo.db.signup.find_one({"username":userid})
+    print(result['following'])
+    return render_template("mypage.html", result=result)
 
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('main'))
+
+# @app.route("/follow",method=['GET', 'POST'])
+# def follow():
+#     if request.method == 'POST':
+#         userid = session.get('userid', None)
+#
+
+@app.route('/userinfo')
+def userinfo():
+    id="222"
+    result = mongo.db.signup.find_one({"username":"id"})
+    return render_template("mypage.html",result=result)
+
+
+
 if __name__ == "__main__":
     app.run(host='127.0.0.1', debug=True, port=9999)

@@ -144,7 +144,7 @@ div{
 <div class="wrap">
   <div class="greenContainer">
     <div>
-      <div class="name">Jaden</div>
+      <div class="name">{{result.username}}</div>
     </div>
     <div class="modify"></div>
   </div>
@@ -157,13 +157,13 @@ div{
 
       <div class="item">
         <div>
-          <div class="green number">6</div>
+          <div class="green number">{{result.following|count}}</div>
           <div class="text">팔로잉</div>
         </div>
       </div>
       <div class="item">
         <div>
-          <div class="number">0</div>
+          <div class="number">{{result.follower|count}}</div>
           <div class="text">팔로워</div>
         </div>
       </div>
@@ -172,13 +172,13 @@ div{
     </div>
 
   </div>
-  <!--<div class="listContainer">
+   <div class="listContainer">
     <a href="#" class="item">
         <div class="icon">ii</div>
-        <div class="text">주문목록     </div>
+        <div class="text">상품목록     </div>
         <div class="right"> > </div>
     </a>
-    <a href="#" class="item">
+<!--     <a href="#" class="item">
         <div class="icon">ii</div>
         <div class="text">상품후기</div>
         <div class="right"> > </div>
@@ -197,8 +197,8 @@ div{
         <div class="icon">ii</div>
         <div class="text">찜한상품</div>
         <div class="right"> > </div>
-    </a>
-  </div>-->
-
+    </a> -->
+  </div>
+</div>
 </body>
 </html>
