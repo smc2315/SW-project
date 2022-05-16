@@ -91,7 +91,7 @@ def signin():
                 flash("Wrong Password!!")
                 return redirect("/signin")
     else:
-        return render_template("signin.html")
+        return render_template("main.html")
 
 
 @app.route('/new', methods=['GET', 'POST'])
