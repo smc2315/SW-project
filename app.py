@@ -94,12 +94,6 @@ def signin():
         return render_template("signin.html")
 
 
-@app.route('/logout', methods=['GET'])
-def logout():
-    session.pop('userid', None)
-    return redirect('/')
-
-
 @app.route('/new', methods=['GET', 'POST'])
 def new():
     userid = session.get('userid', None)
@@ -144,5 +138,10 @@ def mypage():
     userid = session.get('userid', None)
 
     return render_template("mypage.html", userid=userid)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('main'))
 if __name__ == "__main__":
     app.run(host='127.0.0.1', debug=True, port=9999)
