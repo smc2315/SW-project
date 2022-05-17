@@ -144,7 +144,17 @@ div{
 <div class="wrap">
   <div class="greenContainer">
     <div>
-      <div class="name">{{result.username}}</div>
+      <div class="name">{{result.username}}
+          {%if followFlag==0%}
+          <a href="{{url_for('follow',username=result.username)}}">
+      <button type="button">팔로우</button>
+      </a>
+          {%elif followFlag==1%}
+          <button type="button">팔로우 해제</button>
+          {%else%}
+          {%endif%}
+      </div>
+
     </div>
     <div class="modify"></div>
   </div>

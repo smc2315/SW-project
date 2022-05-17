@@ -10,7 +10,7 @@
 <!DOCTYPE html>
     <html>
         <head>
-            <meta charset="utf-8"> 
+            <meta charset="utf-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <title>SW Project</title>
@@ -33,7 +33,9 @@
                 <div class="right-box">
                     안녕하세요{{userid}}님!
                     <button type="button" onclick="window.location.href='/logout'" class="btn btn-primary">Sign Out</button>
-                    <button type="button" onclick="window.location.href='/mypage'" class="btn btn-primary">MyPage</button>
+                    <a href={{url_for('userinfo',username=userid)}}>
+                    <button type="button" class="btn btn-primary">MyPage</button>
+                    </a>
                  </div>
                  <div class="right-box" style="padding-right : 30px">
 
@@ -56,9 +58,9 @@
             <hr>
             <div id="products">
                 {% for i in data %}
-                    <p3>제목: {{i.title}}</p3>
+                    <a href="http://127.0.0.1:9999/detail/{{i._id}}">제목: {{i.title}}</a>
                     <br>
-                    <br>
+                    <hr>
                 {% endfor %}
 
             </div>

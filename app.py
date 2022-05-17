@@ -1,4 +1,5 @@
 import gridfs
+from bson import ObjectId
 from flask import Flask, render_template, redirect, request, url_for, session, flash, escape, jsonify
 from flask_pymongo import PyMongo
 from datetime import datetime, timedelta
@@ -102,7 +103,7 @@ def new():
     logFlag = session.get('logFlag', None)
     if logFlag != 1:
         flash("Please Login to write post.")
-        return render_template("main.html", userid=userid, logFlag=logFlag)
+        return redirect("/")
     if request.method == "POST":
         userid = '%s' % escape(session["userid"])
         title = request.form.get("title", type=str)
@@ -135,31 +136,43 @@ def new():
     else:
         return render_template("new.html", userid=userid, logFlag=logFlag)
 
-@app.route('/mypage')
-def mypage():
-    userid = session.get('userid', None)
-    result = mongo.db.signup.find_one({"username":userid})
-    print(result['following'])
-    return render_template("mypage.html", result=result)
-
 @app.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('main'))
 
-# @app.route("/follow",method=['GET', 'POST'])
-# def follow():
-#     if request.method == 'POST':
-#         userid = session.get('userid', None)
-#
+@app.route('/follow/<username>',methods=['GET', 'POST'])
+def follow(username):
+    id=username
+    print("asdasd")
+    mongo.db.signup.update_one({"username":id},{"$push":{"follower":session.get('userid',None)}})
+    mongo.db.signup.update_one({"username":session.get('userid',None)},{"$push":{"following":id}})
+    result =  mongo.db.signup.find_one({"username":"id"})
+    return redirect(url_for('userinfo',username=id))
 
-@app.route('/userinfo')
+
+@app.route('/userinfo', methods=['GET'])
 def userinfo():
-    id="222"
-    result = mongo.db.signup.find_one({"username":"id"})
-    return render_template("mypage.html",result=result)
+    id=request.args.get('username')
+    userid = session.get('userid',None)
+    result = mongo.db.signup.find_one({"username":id})
+    followFlag=0
+    u=mongo.db.signup.find_one({"username":userid})
+    for _ in u['following']:
+        if _ == id:
+            followFlag=1
+            break
+    if id ==userid:
+        followFlag=2
+    return render_template("mypage.html",result=result,followFlag=followFlag)
 
+@app.route('/detail/<post_id>', methods=['POST', 'GET'])
+def detail(post_id):
+        userid = session.get('userid', None)
+        post = mongo.db.post
+        results = post.find_one({"_id": ObjectId(post_id)})
 
+        return render_template("detail.html", data=results)
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', debug=True, port=9999)
