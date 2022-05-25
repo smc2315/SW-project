@@ -1,3 +1,7 @@
+import codecs
+import io
+
+
 import gridfs
 from bson import ObjectId
 from flask import Flask, render_template, redirect, request, url_for, session, flash, escape, jsonify
@@ -108,6 +112,7 @@ def new():
         userid = '%s' % escape(session["userid"])
         title = request.form.get("title", type=str)
         body = request.form.get("body", type=str)
+        keyword = request.form.get("keyword", type=str)
         f = request.files['file']
         if title == "":
             flash("title is empty!")
@@ -115,20 +120,24 @@ def new():
         elif body == "":
             flash("body is empty!")
             return render_template("new.html", userid=userid, logFlag=logFlag)
+        elif keyword == "":
+            flash("keyword is empty!")
         elif not f:
             flash("Please upload Picture!")
             return render_template("new.html", userid=userid, logFlag=logFlag)
         else:
             post = mongo.db.post
-            for i in f:
-                img_id_save = []
-                fs = gridfs.GridFS(mongo.db)
-                file_img_id = fs.put(i)
-                img_id_save.append(file_img_id)
+
+            fs = gridfs.GridFS(mongo.db)
+            # for i in f:
+            #     img_id_save = []
+            file_img_id = fs.put(f)
+                # img_id_save.append(file_img_id)
             to_db = {
                 "title": title,
                 "body": body,
-                "flies": list(img_id_save),  # 이미지 업로드 부분 잘 모르겠음.
+                "flies": file_img_id,  # 이미지 업로드 부분 잘 모르겠음.
+                "keyword": keyword,
                 "userid": userid,
             }
             post.insert_one(to_db)
@@ -171,8 +180,21 @@ def detail(post_id):
         userid = session.get('userid', None)
         post = mongo.db.post
         results = post.find_one({"_id": ObjectId(post_id)})
+        setting = ""
+        if results["userid"] != userid:
+            setting = "visibility:hidden"
 
-        return render_template("detail.html", data=results)
+        fs = gridfs.GridFS(mongo.db)
+        contents = ObjectId(results['flies'])
+        ff = mongo.db.fs.files.find_one({"_id": ObjectId(contents)})
+        fc = mongo.db.fs.chunks.find_one({"files_id": ff['_id']})
+
+        binary_img = io.BytesIO(fc['data'])
+        base64_img = codecs.encode(binary_img.read(), 'base64')
+        decoded_img = base64_img.decode('utf-8')
+
+        return render_template("detail.html", data=results, img=decoded_img, setting=setting)
+
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', debug=True, port=9999)

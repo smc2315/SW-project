@@ -15,12 +15,13 @@
 </head>
 <body>
     <p3>제목 : {{data.title}}</p3>
+    <button name="btn_edit" onclick="window.location.href='/edit?postid={{data._id}}'" style="{{setting}}" type="button">수정</button>
     <hr>
-    <a href={{url_for('userinfo',username=data.userid)}}>작성자 : {{data.userid}}</a>
+    <a href="http://127.0.0.1:9999/userinfo?username={{data.userid}}">작성자 : {{data.userid}}</a>
     <hr>
     <p2>내용 : {{data.body}}</p2>
     <hr>
-
+    <img src="data:image/png;base64, {{ img }}">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="static/bootstrap.js"></script>
