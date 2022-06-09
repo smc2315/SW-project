@@ -201,6 +201,7 @@ def unfollow(username):
 
 @app.route('/userinfo', methods=['GET'])
 def userinfo():
+
     id=request.args.get('username')
     userid = session.get('userid',None)
     result = mongo.db.signup.find_one({"username": id})
@@ -226,7 +227,7 @@ def userinfo():
                 break
         if id ==userid:
             followFlag=2
-    return render_template("mypage.html",result=result,followFlag=followFlag,data=data,img = img)
+    return render_template("mypage.html",result=result,followFlag=followFlag,data=data,img = img,userid=userid)
 
 
 
@@ -289,9 +290,6 @@ def edit(post_id):
         elif price == "":
             flash("Please input Price!!")
             return render_template("edit.html", data=before)
-        elif type(price) != int:
-            flash("not number!!")
-            return render_template("edit.html", data=before)
         elif not f:
             flash("Please upload Picture!")
             return render_template("edit.html", data=before)
@@ -312,7 +310,7 @@ def edit(post_id):
 
             return redirect("/")
     else:
-        return render_template("edit.html", data=before)
+        return render_template("edit.html", data=before,userid=user_id)
 
 
 @app.route('/sold/<post_id>', methods=['POST', 'GET'])
@@ -325,17 +323,19 @@ def sold(post_id):
 
 @app.route('/following', methods=['POST', 'GET'])
 def following():
+    user_id = session.get('userid', None)
     username = request.args.get('username')
     followingList = mongo.db.signup.find_one({"username":username})["following"]
     print(followingList)
-    return render_template("follow.html",data=followingList)
+    return render_template("follow.html",data=followingList,userid=user_id)
 
 @app.route('/follower', methods=['POST', 'GET'])
 def follower():
+    user_id = session.get('userid', None)
     username = request.args.get('username')
     username = request.args.get('username')
     followerList = mongo.db.signup.find_one({"username": username})["follower"]
-    return render_template("follow.html",data=followerList)
+    return render_template("follow.html",data=followerList,userid=user_id)
 
 
 if __name__ == "__main__":
