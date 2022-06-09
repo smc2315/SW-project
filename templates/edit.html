@@ -1,6 +1,6 @@
 {% with messages = get_flashed_messages() %}
   {% if messages %}
-    <script>
+<script xmlns="http://www.w3.org/1999/html">
       alert("{{messages[-1]}}")
     </script>
   {% endif %}
@@ -11,7 +11,7 @@
 <head>
     <meta charset="UTF-8">
     <title>New Post</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
             <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 </head>
@@ -88,25 +88,20 @@
   </div>
 </div>
 <br>
-            <br>
-            <br>
 <div class ="insert">
-    <form action= "/new" method="POST" enctype="multipart/form-data">
+    <form action= "/edit/{{data._id}}" method="POST" enctype="multipart/form-data">
         <label for="title">제목</label>
-        <input type="text" id="title" name="title">
+        <input type="text" id="title" name="title" value="{{data.title}}"/>
         <br>
         <label for="body">내용</label>
-        <textarea name="body" id="body" cols="70" rows="10"></textarea>
-        <br>
-        <label for="price">가격</label>
-        <input type="text" name="price" id="price">
+        <textarea name="body" id="body" cols="70" rows="10">{{data.body}}</textarea>
         <br>
         <label for="keyword">키워드</label>
-        <input type="text" id="keyword" name="keyword">
+        <input type="text" id="keyword" name="keyword" value="{{data.keyword}}"/>
         <br>
         <br>
         <label for="file">사진1</label>
-        <input type="file" name ="file" onchange="addFile(this);" id="file" multiple />
+        <input type="file" name ="file" onchange="addFile(this);" id="file" multiple value="{{data.files}}"/>
         <br>
         <label for="file2">사진2</label>
         <input type="file" name ="file2" onchange="addFile(this);" id="file2" multiple />

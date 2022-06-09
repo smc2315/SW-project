@@ -13,10 +13,84 @@
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <title>Login</title>
-            <link href="static/css/bootstrap.min.css" rel="stylesheet">
-            <link href="static/css/signin.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+            <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         </head>
         <body>
+        <style>
+    .insert {
+    padding: 20px 30px;
+    display: block;
+    width: 600px;
+    margin: 5vh auto;
+    height: 90vh;
+    border: 1px solid #dbdbdb;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.insert .file-list {
+    height: 200px;
+    overflow: auto;
+    border: 1px solid #989898;
+    padding: 10px;
+}
+.insert .file-list .filebox p {
+    font-size: 14px;
+    margin-top: 10px;
+    display: inline-block;
+}
+.insert .file-list .filebox .delete i{
+    color: #ff5353;
+    margin-left: 5px;
+}
+</style>
+<div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">My Project</a>
+    </div>
+    <div class="navbar-collapse collapse" id="searchbar">
+
+
+      <ul class="nav navbar-nav navbar-right">
+         {%if userid%}
+        <li id="userPage">
+          <a href={{url_for('userinfo',username=userid)}}><i class="icon-user"></i> My Page</a>
+        </li>
+        <li><a onclick="window.location.href='/logout'" data-prevent="">Logout</a></li>
+          {%else%}
+           <li id="signIn">
+          <a onclick="window.location.href='/signin'"><i class="icon-user"></i> sign in</a>
+        </li>
+        <li><a onclick="window.location.href='/signup'" data-prevent="">sing up</a></li>
+          {%endif%}
+      </ul>
+
+
+
+
+     <form class="navbar-form" action="/" method="POST">
+        <div class="form-group" style="display:inline;">
+          <div class="input-group" style="display:table;">
+            <span class="input-group-addon" style="width:1%;"><span class="glyphicon glyphicon-search"></span></span>
+            <input class="form-control" name="search_key" placeholder="Search Here" autocomplete="off" autofocus="autofocus" type="text">
+          </div>
+        </div>
+      </form>
+
+    </div><!--/.nav-collapse -->
+  </div>
+</div>
+<br>
+            <br>
             <center>
                 <form method="post" action="/signin" style = "margin-top:200px">
                     <p1>Welcome! Please Log in!</p1>
