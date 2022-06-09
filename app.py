@@ -288,8 +288,10 @@ def edit(post_id):
             return render_template("edit.html", data=before)
         elif price == "":
             flash("Please input Price!!")
+            return render_template("edit.html", data=before)
         elif type(price) != int:
             flash("not number!!")
+            return render_template("edit.html", data=before)
         elif not f:
             flash("Please upload Picture!")
             return render_template("edit.html", data=before)
